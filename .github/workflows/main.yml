@@ -41,7 +41,7 @@ jobs:
           push: true
           context: ./src
           file: ./src/Review-Filmes.Web/Dockerfile
-          tags:
+          tags: |
             networkshtech/desafio-cicd:latest
             networkshtech/desafio-cicd:v${{ github.run_number }}
             
