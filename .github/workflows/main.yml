@@ -42,7 +42,7 @@ jobs:
           context: ./src
           file: ./src/Review-Filmes.Web/Dockerfile
           tags:
-            networkshtech/projeto-devops-pro:latest
+            networkshtech/desafio-cicd:latest
             networkshtech/desafio-cicd:v${{ github.run_number }}
             
 
