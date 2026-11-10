@@ -25,6 +25,7 @@ jobs:
         run: dotnet build Review-Filmes.sln
 
   release:
+    needs: [build]
     name: Criação de release
     runs-on: ubuntu-latest
     steps:
