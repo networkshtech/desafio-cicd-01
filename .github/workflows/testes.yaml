@@ -26,9 +26,9 @@ jobs:
               ports:
                 - 5432:5432
               env:
-                  POSTGRE_USER: review
-                  POSTGRE_PASSWORD: postgrespwd
-                  POSTGRE_DB: review-filmes
+                  POSTGRES_USER: review
+                  POSTGRES_PASSWORD: postgrespwd
+                  POSTGRES_DB: review-filmes
         steps:
           - name: Obtendo o código do projeto
             uses: actions/checkout@v4
