@@ -3,6 +3,20 @@ on:
     workflow_call:
 
 jobs:
+    unit-test:
+        name: Teste de Unidade
+        runs-on: ubuntu-latest
+        steps:
+        - name: Obtendo o código do projeto
+          uses: actions/checkout@v4
+        - name: Setup dotnet
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: "8.0.300"
+        - name: Execução do Teste de Unidade
+          working-directory: ./src
+          run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
+                      
     integration-test:
         name: Teste de Integração
         runs-on: ubuntu-latest
@@ -22,21 +36,13 @@ jobs:
             uses: actions/setup-dotnet@v4
             with:
               dotnet-version: "8.0.300"
+          
+          - name: Execução do Teste de Integração
+            working-directory: ./src
+            run: dotnet test ./Review-Filmes.Test.Integration/Review-Filmes.Test.Integration.csproj
+        env:
+            ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=review-filmes;Username=review;Password=postgrepwd"
 
-    unit-test:
-        name: Teste de Unidade
-        runs-on: ubuntu-latest
-        steps:
-        - name: Obtendo o código do projeto
-          uses: actions/checkout@v4
-        - name: Setup dotnet
-          uses: actions/setup-dotnet@v4
-          with:
-            dotnet-version: "8.0.300"
-        - name: Execução do Teste de Unidade
-          working-directory: ./src
-          run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
-          env:
-            ConnectionStrings__DefaultConnection: ""
+
         
          
