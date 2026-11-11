@@ -1,0 +1,10 @@
+name: Execução de Teste
+on:
+    workflow_call:
+
+jobs:
+    unit-test:
+        name: Teste de Unidade
+        runs-on: ubuntu-latest
+        steps:
+            - 
