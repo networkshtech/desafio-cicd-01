@@ -26,11 +26,11 @@ jobs:
   
   testes:
     needs: [build]
-    uses: networkshtech/desafio-cicd/workflows/testes.yaml@main
+    uses: networkshtech/desafio-cicd-01/.github/workflows/testes.yaml@main
     
 
   release:
-    needs: [build]
+    needs: [testes]
     name: Criação de release
     runs-on: ubuntu-latest
     steps:
