@@ -31,7 +31,7 @@ jobs:
                   POSTGRE_DB: review-filmes
         steps:
           - name: Obtendo o código do projeto
-            uses: actions/chechout@v4
+            uses: actions/checkout@v4
           - name: Setup dotnet
             uses: actions/setup-dotnet@v4
             with:
