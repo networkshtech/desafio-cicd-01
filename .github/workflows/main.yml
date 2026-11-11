@@ -23,6 +23,11 @@ jobs:
       - name: Execução do comando build
         working-directory: ./src
         run: dotnet build Review-Filmes.sln
+  
+  testes:
+    needs: [build]
+    uses: networkshtech/desafio-cicd/workflows/testes.yaml@main
+    
 
   release:
     needs: [build]
