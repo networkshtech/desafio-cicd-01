@@ -3,6 +3,26 @@ on:
     workflow_call:
 
 jobs:
+    integration-test:
+        name: Teste de Integração
+        runs-on: ubuntu-latest
+        services:
+          postgre:
+              image: postgre:latest
+              ports:
+                - 5432:5432
+              env:
+                  POSTGRE_USER: review
+                  POSTGRE_PASSWORD: postgrepwd
+                  POSTGRE_DB: review-filmes
+        steps:
+          - name: Obtendo o código do projeto
+            uses: actions/chechout@v4
+          - name: Setup dotnet
+            uses: actions/setup-dotnet@v4
+            with:
+              dotnet-version: "8.0.300"
+
     unit-test:
         name: Teste de Unidade
         runs-on: ubuntu-latest
@@ -16,3 +36,7 @@ jobs:
         - name: Execução do Teste de Unidade
           working-directory: ./src
           run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
+          env:
+            ConnectionStrings__DefaultConnection: ""
+        
+         
