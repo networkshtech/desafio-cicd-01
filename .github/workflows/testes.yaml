@@ -21,7 +21,7 @@ jobs:
         name: Teste de Integração
         runs-on: ubuntu-latest
         services:
-          postgres:
+          postgre:
               image: postgres:latest
               ports:
                 - 5432:5432
