@@ -21,13 +21,13 @@ jobs:
         name: Teste de Integração
         runs-on: ubuntu-latest
         services:
-          postgre:
-              image: postgre:latest
+          postgres:
+              image: postgres:latest
               ports:
                 - 5432:5432
               env:
                   POSTGRE_USER: review
-                  POSTGRE_PASSWORD: postgrepwd
+                  POSTGRE_PASSWORD: postgrespwd
                   POSTGRE_DB: review-filmes
         steps:
           - name: Obtendo o código do projeto
@@ -41,7 +41,7 @@ jobs:
             working-directory: ./src
             run: dotnet test ./Review-Filmes.Test.Integration/Review-Filmes.Test.Integration.csproj
         env:
-            ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=review-filmes;Username=review;Password=postgrepwd"
+            ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=review-filmes;Username=review;Password=postgrespwd"
 
 
         
