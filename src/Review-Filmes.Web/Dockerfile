@@ -1,3 +1,4 @@
+#hadolint ignore=DL3066
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
@@ -8,8 +9,7 @@ EXPOSE 8080
 USER root
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 
-# Retorna para o usuário não-privilegiado e aplica a supressão do linter
-# hadolint ignore=DL3066
+# Retorna para o usuário não-privilegiado
 USER app
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
