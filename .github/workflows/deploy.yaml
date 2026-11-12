@@ -18,4 +18,4 @@ jobs:
 
       - name: Verificar status do rollout
         run: |
-          kubectl rollout status deployment/review-filmes -n default
+          kubectl rollout status deployment/reviewfilmes -n default
