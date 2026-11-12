@@ -37,7 +37,6 @@ jobs:
             uses: actions/setup-dotnet@v4
             with:
                 dotnet-version: "8.0.300"
-          
           - name: Execução do Teste de Integração
             working-directory: ./src
             run: dotnet test ./Review-Filmes.Test.Integration/Review-Filmes.Test.Integration.csproj
@@ -55,7 +54,6 @@ jobs:
             with:
                 java-version: '21'
                 distribution: 'temurin'
-          
           - name: Setup dotnet
             uses: actions/setup-dotnet@v4
             with:
