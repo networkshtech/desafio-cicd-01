@@ -17,7 +17,7 @@ jobs:
           - name: Execução do Teste de Unidade
             working-directory: ./src
             run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
-                      
+                    
     integration-test:
         name: Teste de Integração
         runs-on: ubuntu-latest
@@ -67,6 +67,18 @@ jobs:
                 dotnet tool uninstall --global dotnet-sonarscanner || true
                 dotnet tool install --global dotnet-sonarscanner --version 11.3.0
                 
-                dotnet sonarscanner begin /k:"filmes" /d:sonar.host.url="http://100.100.100.104:9000" /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
+                dotnet sonarscanner begin /k:"filmes" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
                 dotnet build Review-Filmes.sln
-                dotnet sonarscanner end /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
+                dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+                
+          - name: Verificação do Quality Gate
+            uses: sonarsource/sonarqube-quality-gate-action@master
+            id: sonarqube-quality-gate-check
+            env:
+                SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
+                SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
+            with:
+                scanMetadataReportFile: ./src/.sonarqube/.sonar/report-task.txt
+          - name: "Exibir status quality gate"
+            if: ${{ always() }}
+            run: echo "O status do quality gate é ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }} "
