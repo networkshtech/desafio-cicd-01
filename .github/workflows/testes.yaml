@@ -1,4 +1,5 @@
 name: Execução de Teste
+
 on:
     workflow_call:
 
@@ -7,35 +8,35 @@ jobs:
         name: Teste de Unidade
         runs-on: ubuntu-latest
         steps:
-        - name: Obtendo o código do projeto
-          uses: actions/checkout@v4
-        - name: Setup dotnet
-          uses: actions/setup-dotnet@v4
-          with:
-            dotnet-version: "8.0.300"
-        - name: Execução do Teste de Unidade
-          working-directory: ./src
-          run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
+          - name: Obtendo o código do projeto
+            uses: actions/checkout@v4
+          - name: Setup dotnet
+            uses: actions/setup-dotnet@v4
+            with:
+                dotnet-version: "8.0.300"
+          - name: Execução do Teste de Unidade
+            working-directory: ./src
+            run: dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj
                       
     integration-test:
         name: Teste de Integração
         runs-on: ubuntu-latest
         services:
-          postgre:
-              image: postgres:latest
-              ports:
-                - 5432:5432
-              env:
-                  POSTGRES_USER: review
-                  POSTGRES_PASSWORD: postgrespwd
-                  POSTGRES_DB: review-filmes
+            postgre:
+                image: postgres:latest
+                ports:
+                    - 5432:5432
+                env:
+                    POSTGRES_USER: review
+                    POSTGRES_PASSWORD: postgrespwd
+                    POSTGRES_DB: review-filmes
         steps:
           - name: Obtendo o código do projeto
             uses: actions/checkout@v4
           - name: Setup dotnet
             uses: actions/setup-dotnet@v4
             with:
-              dotnet-version: "8.0.300"
+                dotnet-version: "8.0.300"
           
           - name: Execução do Teste de Integração
             working-directory: ./src
@@ -43,6 +44,25 @@ jobs:
         env:
             ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=review-filmes;Username=review;Password=postgrespwd"
 
-
-        
-         
+    sonarqube:
+        name: Scan com o Sonarqube
+        runs-on: ubuntu-latest
+        steps:
+          - name: Obtendo o código do projeto
+            uses: actions/checkout@v4
+          - name: Setup JDK
+            uses: actions/setup-java@v4
+            with:
+                java-version: '21'
+          
+          - name: Setup dotnet
+            uses: actions/setup-dotnet@v4
+            with:
+                dotnet-version: "8.0.300"
+          - name: Instalação e Execução do Sonarqube Scanner
+            working-directory: ./src
+            run: |
+                dotnet tool install --global dotnet-sonarscanner
+                dotnet sonarscanner begin /k:"filmes" /d:sonar.host.url="http://100.100.100.104:9000" /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
+                dotnet build Review-Filmes.sln
+                dotnet sonarscanner end /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
