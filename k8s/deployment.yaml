@@ -1,12 +1,13 @@
-# Deploy do postgre
+
+# Deploy do PostgreSQL
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgre
-spec: 
+spec:
   replicas: 1
   selector:
-    matchLabels: 
+    matchLabels:
       app: postgre
   template:
     metadata:
@@ -17,34 +18,40 @@ spec:
         - name: postgre
           image: postgres:13.1
           env:
-          - name: POSTGRES_PASSWORD
-            value: Passw0rd2024!
-          - name: POSTGRES_USER
-            value: reviewfilmes
-          - name: POSTGRES_DB
-            value: reviewfilmes
+            - name: POSTGRES_PASSWORD
+              value: "Passw0rd2024!"
+            - name: POSTGRES_USER
+              value: "reviewfilmes"
+            - name: POSTGRES_DB
+              value: "reviewfilmes"
           ports:
-            - containerPort: 5432
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: postgre
-spec: 
+spec:
+  type: ClusterIP
   selector:
     app: postgre
   ports:
-    - port: 5432
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
 ---
 # Deploy da Aplicação Web
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reviewfilmes
-spec: 
+spec:
   replicas: 1
   selector:
-    matchLabels: 
+    matchLabels:
       app: reviewfilmes
   template:
     metadata:
@@ -55,41 +62,44 @@ spec:
         - name: reviewfilmes
           image: networkshtech/desafio-cicd:latest
           env:
-          - name: ASPNETCORE_HTTP_PORTS
-            value: "8080"
-          - name: ConnectionStrings__DefaultConnection
-            value: "Host=postgre;Database=reviewfilmes;Username=reviewfilmes;Password=Passw0rd2024!"
+            - name: ASPNETCORE_HTTP_PORTS
+              value: "8080"
+            - name: ConnectionStrings__DefaultConnection
+              value: "Host=postgre;Database=reviewfilmes;Username=reviewfilmes;Password=Passw0rd2024!"
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
+              protocol: TCP
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: reviewfilmes
-spec: 
+spec:
+  type: ClusterIP
   selector:
     app: reviewfilmes
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 8080
-  type: LoadBalancer
+      protocol: TCP
 ---
+# Ingress Traefik
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: reviewfilmes
-  labels:
-    name: reviewfilmes
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   rules:
-  - host: homologacao.networkshtech.local
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: reviewfilmes
-            port: 
-              number: 80
+    - host: homologacao.networkshtech.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: reviewfilmes
+                port:
+                  number: 80
