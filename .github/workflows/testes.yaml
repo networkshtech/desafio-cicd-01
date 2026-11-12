@@ -73,6 +73,7 @@ jobs:
           - name: Verificação do Quality Gate
             uses: sonarsource/sonarqube-quality-gate-action@master
             id: sonarqube-quality-gate-check
+            working-directory: ./src
             env:
                 SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
                 SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
