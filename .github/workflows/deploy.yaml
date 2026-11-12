@@ -1,0 +1,20 @@
+name: Deploy Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Pipeline CI/CD"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy no Kubernetes Local
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Obtendo o código do projeto
+        uses: actions/checkout@v4
+
+      - name: Aplicar manifestos no Kubernetes
+        run: |
+          kubectl apply -f k8s/
