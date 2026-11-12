@@ -27,7 +27,7 @@ jobs:
   testes:
     needs: [build]
     uses: networkshtech/desafio-cicd-01/.github/workflows/testes.yaml@main
-    
+    secrets: inherit
 
   release:
     needs: [testes]
