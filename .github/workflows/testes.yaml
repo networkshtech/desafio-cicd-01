@@ -63,7 +63,9 @@ jobs:
           - name: Instalação e Execução do Sonarqube Scanner
             working-directory: ./src
             run: |
-                dotnet tool install --global dotnet-sonarscanner
+                export PATH="$PATH:/root/.dotnet/tools"
+                
+                dotnet tool install --global dotnet-sonarscanner || true
                 dotnet sonarscanner begin /k:"filmes" /d:sonar.host.url="http://100.100.100.104:9000" /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
                 dotnet build Review-Filmes.sln
                 dotnet sonarscanner end /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
