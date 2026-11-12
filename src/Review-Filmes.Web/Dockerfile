@@ -1,4 +1,3 @@
-
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
@@ -9,7 +8,7 @@ EXPOSE 8080
 USER 0
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 
-# Retorna para o usuário não-privilegiado
+# Retorna para o usuário não-privilegiado utilizando UID numérico para passar no Hadolint (DL3066)
 USER 1654
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
