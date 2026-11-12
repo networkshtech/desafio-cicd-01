@@ -63,7 +63,7 @@ jobs:
             run: |
                 export PATH="$PATH:/root/.dotnet/tools"
                 
-                dotnet tool install --global dotnet-sonarscanner --version 6.8.0 || dotnet tool update --global dotnet-sonarscanner --version 6.8.0
+                dotnet tool install --global dotnet-sonarscanner --version 11.3.0 || dotnet tool update --global dotnet-sonarscanner --version 11.3.0
                 
                 dotnet sonarscanner begin /k:"filmes" /d:sonar.host.url="http://100.100.100.104:9000" /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
                 dotnet build Review-Filmes.sln
