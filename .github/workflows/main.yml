@@ -68,7 +68,7 @@ jobs:
           serevity: MEDIUM
 
       - name: Upload do arquivo trivy para o Github
-        uses: github/trivy/upload-sarif@v3
+        uses: github/networkshtech/trivy/upload-sarif@v3
         with:
           category: docker-result
           sarif_file: trivy-docker-result.sarif
