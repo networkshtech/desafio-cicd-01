@@ -65,7 +65,7 @@ jobs:
           image-ref: networkshtech/desafio-cicd:v${{ github.run_number }}
           format: sarif
           output: trivy-docker-result.sarif
-          serevity: MEDIUM
+          severity: 'MEDIUM,HIGH,CRITICAL'
 
       - name: Upload do arquivo trivy para o Github
         uses: github/codeql-action/upload-sarif@v3
