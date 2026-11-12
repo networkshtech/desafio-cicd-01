@@ -46,7 +46,7 @@ jobs:
 
     sonarqube:
         name: Scan com o Sonarqube
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
           - name: Obtendo o código do projeto
             uses: actions/checkout@v4
