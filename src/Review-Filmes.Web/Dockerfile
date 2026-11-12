@@ -5,8 +5,9 @@ WORKDIR /app
 EXPOSE 8080
 
 # Atualiza os pacotes do sistema operacional para corrigir vulnerabilidades críticas do SO (ex: zlib1g)
-USER 0
-RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install --only-upgrade -y zlib1g && \
+    rm -rf /var/lib/apt/lists/*
 
 # Retorna para o usuário não-privilegiado utilizando UID numérico para passar no Hadolint (DL3066)
 USER 1654
