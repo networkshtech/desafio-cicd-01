@@ -63,7 +63,6 @@ jobs:
             run: |
                 export PATH="$PATH:/root/.dotnet/tools"
                 
-                # Remove a versão incompatível anterior (se existir) e instala a versão 11.3.0 limpa
                 dotnet tool uninstall --global dotnet-sonarscanner || true
                 dotnet tool install --global dotnet-sonarscanner --version 11.3.0
                 
@@ -73,12 +72,6 @@ jobs:
                 
           - name: Verificação do Quality Gate
             uses: sonarsource/sonarqube-quality-gate-action@master
-            id: sonarqube-quality-gate-check
             env:
                 SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
                 SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-            with:
-                scanMetadataReportFile: ./src/.sonarqube/.sonar/report-task.txt
-          - name: "Exibir status quality gate"
-            if: ${{ always() }}
-            run: echo "O status do quality gate é ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }} "
