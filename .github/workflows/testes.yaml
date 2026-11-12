@@ -72,8 +72,12 @@ jobs:
                 
           - name: Verificação do Quality Gate
             uses: sonarsource/sonarqube-quality-gate-action@master
+            id: sonarqube-quality-gate-check
             env:
                 SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}"
                 SONAR_HOST_URL: "${{ secrets.SONAR_HOST_URL }}"
-            with:
-                scanMetadataReportFile: ./src/.scannerwork/report-task.txt
+                with:
+                scanMetadataReportFile: ./src/.sonarqube/.sonar/report-task.txt
+          - name: "Exibir status quality gate"
+            if: ${{ always() }}
+            run: echo "O status do quality gate é ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
