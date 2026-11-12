@@ -14,7 +14,7 @@ jobs:
       - name: Aplicar manifestos no Kubernetes
         run: |
           kubectl apply -f k8s/
-          kubectl rollout restart deployment/review-filmes -n default
+          kubectl rollout restart deployment/reviewfilmes -n default
 
       - name: Verificar status do rollout
         run: |
