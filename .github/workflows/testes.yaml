@@ -63,8 +63,9 @@ jobs:
             run: |
                 export PATH="$PATH:/root/.dotnet/tools"
                 
-                # Força a atualização/instalação da ferramenta ignorando a restrição de versão anterior
-                dotnet tool update --global dotnet-sonarscanner --version 11.3.0 || dotnet tool install --global dotnet-sonarscanner --version 11.3.0
+                # Remove a versão incompatível anterior (se existir) e instala a versão 11.3.0 limpa
+                dotnet tool uninstall --global dotnet-sonarscanner || true
+                dotnet tool install --global dotnet-sonarscanner --version 11.3.0
                 
                 dotnet sonarscanner begin /k:"filmes" /d:sonar.host.url="http://100.100.100.104:9000" /d:sonar.login="sqp_6dbbd9f68e9af294238477729857f865b73fedcf"
                 dotnet build Review-Filmes.sln
