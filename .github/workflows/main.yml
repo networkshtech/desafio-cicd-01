@@ -28,6 +28,11 @@ jobs:
     needs: [build]
     uses: networkshtech/desafio-cicd-01/.github/workflows/testes.yaml@main
     secrets: inherit
+      
+  deploy:
+    needs: [release]
+    uses: networkshtech/desafio-cicd-01/.github/workflows/deploy.yaml@main
+    secrets: inherit
 
   release:
     needs: [testes]
@@ -78,10 +83,7 @@ jobs:
           category: docker-result
           sarif_file: trivy-docker-result.sarif
 
-      deploy:
-      needs: [release]
-      uses: networkshtech/desafio-cicd-01/.github/workflows/deploy.yaml@main
-      secrets: inherit
+
             
             
         
