@@ -33,6 +33,11 @@ jobs:
     needs: [testes]
     name: Criação de release
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    
     steps:
       - name: Obtendo o código do projeto
         uses: actions/checkout@v4
